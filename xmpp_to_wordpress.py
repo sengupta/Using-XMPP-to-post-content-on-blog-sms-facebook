@@ -59,8 +59,10 @@ PROXY={}
 blog_id = 0
 
 class WP:
-	def message_handler(connect_object,message_node):
-		command1=str(unicode(message_node.getBody()).encode('utf-8'))
+	command1 = ""
+	def message_handler(self, connect_object,message_node):
+		self.command1=str(unicode(message_node.getBody()).encode('utf-8'))
+		command1 = self.command1
 		command2=str(message_node.getFrom().getStripped())
 		c3=command2.replace("@"," [at] ")
 		c4=c3.replace("."," [dot] ")
@@ -92,7 +94,7 @@ class WP:
 	connection.connect()
 	#connection.connect(proxy=PROXY)
 	result=connection.auth(jid.getNode(),passwd)
-	connection.RegisterHandler('message',message_handler,"")
+	connection.RegisterHandler('message',self.message_handler,"")
 	connection.sendInitPresence()
         presence = xmpp.Presence()
         presence.setStatus("Hi...just send me a message and I will post it on http://moiblogging.wordpress.com")
